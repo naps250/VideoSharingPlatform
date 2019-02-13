@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using VideoSharingPlatform.Models;
+using VideoSharingPlatform.Models.DTOs;
 
 namespace VideoSharingPlatform.Controllers
 {
@@ -15,21 +16,8 @@ namespace VideoSharingPlatform.Controllers
             return View();
         }
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult UploadVideo(FileDataDTO fileData)
         {
             return View();
         }
