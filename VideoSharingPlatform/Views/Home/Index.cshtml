@@ -3,9 +3,12 @@
 }
 
 <div>
-    <form method='POST' action='@Url.Action("UploadVideo", "Home")'>
+    @using (Html.BeginForm("UploadVideo",
+                    "Home",
+                    FormMethod.Post,
+                    new { enctype = "multipart/form-data" }))
+    { 
         <text><h1>PogU</h1></text>
-        <input  type='file'  />
         <label for='file'>File:</label>
         <input id='file' name='FileData' type='file' value='Choose file' />
         <br />
@@ -14,5 +17,5 @@
         <br />
         <br />
         <input type='submit' value='Upload' />
-    </form>
+    }
 </div>

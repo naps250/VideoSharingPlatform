@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using VideoSharingPlatform.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using VideoSharingPlatform.Controllers;
 
 namespace VideoSharingPlatform
 {
@@ -39,6 +40,9 @@ namespace VideoSharingPlatform
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+            services.AddScoped<IDbContext, MongoDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
