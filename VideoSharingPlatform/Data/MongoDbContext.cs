@@ -1,15 +1,10 @@
 ﻿using MongoDB.Driver;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
-using VideoSharingPlatform.FileStore;
-using VideoSharingPlatform.Models;
 
 namespace VideoSharingPlatform.Data
 {
-    public class MongoDbContext : IDbContext
+    public class MongoDbContext
     {
         MongoClient _client { get; set; }
 
@@ -37,26 +32,6 @@ namespace VideoSharingPlatform.Data
             };
             _client = new MongoClient(settings);
             Database = _client.GetDatabase(MongoDatabaseName);
-        }
-
-        public Task AddAsync(IFileData fileData, string subDir = null)
-        {
-            var highlights = Database.GetCollection<MongoFileData>("Highlights");
-
-            highlights.InsertOneAsync(fileData.FileContents);
-
-
-            throw new NotImplementedException();
-        }
-
-        public Task<IFileData> GetAsync(string identifier)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(string identifier)
-        {
-            throw new NotImplementedException();
         }
     }
 }

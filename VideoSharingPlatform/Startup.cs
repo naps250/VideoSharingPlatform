@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VideoSharingPlatform.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using VideoSharingPlatform.Controllers;
+using VideoSharingPlatform.FileStore;
 
 namespace VideoSharingPlatform
 {
@@ -41,8 +36,9 @@ namespace VideoSharingPlatform
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-            services.AddScoped<IDbContext, MongoDbContext>();
+            services.AddScoped<IFileStore, Data.FileStore>();
+            services.AddScoped<ApplicationDbContext>();
+            services.AddScoped<MongoDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

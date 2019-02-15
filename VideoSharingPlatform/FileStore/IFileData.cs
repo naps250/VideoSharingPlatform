@@ -7,7 +7,5 @@ namespace VideoSharingPlatform.FileStore
         string Author { get; set; }
 
         string[] Tags { get; set; }
-
-        MongoFileData FileContents { get; set; }
     }
 }

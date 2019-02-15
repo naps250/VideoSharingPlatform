@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using VideoSharingPlatform.FileStore;
 using VideoSharingPlatform.Models;
 
 namespace VideoSharingPlatform.Data
 {
-    public class ApplicationDbContext : IdentityDbContext, IApplicationDbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<FileData> FileDatas { get; set; }
 

@@ -1,7 +1,10 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VideoSharingPlatform.Data;
+using VideoSharingPlatform.FileStore;
 using VideoSharingPlatform.Models;
 using VideoSharingPlatform.Models.DTOs;
 
@@ -9,13 +12,11 @@ namespace VideoSharingPlatform.Controllers
 {
     public class HomeController : Controller
     {
-        private IApplicationDbContext _dbContext;
-        private IDbContext _mongoDbContext;
+        private IFileStore _fileStore;
 
-        public HomeController(IApplicationDbContext dbContext, IDbContext mongoDbContext)
+        public HomeController(IFileStore fileStore)
         {
-            _dbContext = dbContext;
-            _mongoDbContext = mongoDbContext;
+            _fileStore = fileStore;
         }
 
         public IActionResult Index()
@@ -26,26 +27,40 @@ namespace VideoSharingPlatform.Controllers
         [HttpPost]
         public IActionResult UploadVideo(FileDataDto fileDataDto)
         {
-            // Read bytes from http input stream
-            BinaryReader b = new BinaryReader(fileDataDto.InputStream);
-            byte[] binData = b.ReadBytes(fileDataDto.ContentLength);
-
-            string fileDataString = System.Text.Encoding.UTF8.GetString(binData);
+            var file = Request.Form.Files["FileData"];
 
             var fileData = new FileData()
             {
                 Author = User.Identity.Name,
-                Tags = fileDataDto.Tags,
-                FileContents = new MongoFileData()
-                {
-                    FileContents = fileDataString
-                }
+                Tags = fileDataDto.Tags.Split(',')
             };
 
-            _mongoDbContext.AddAsync(fileData);
+            using (var reader = new StreamReader(file.OpenReadStream()))
+            {
+                var fileContent = reader.ReadToEnd();
+                var parsedContentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
+                fileData.FileName = parsedContentDisposition.FileName.Trim('"');
+                fileData.FileContents = fileContent;
+            }
+
+            _fileStore.AddAsync(fileData);
 
             return View();
         } 
+
+        [HttpGet]
+        public IActionResult GetVideo(string id)
+        {
+            _fileStore.GetAsync(id);
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Search(string searchTerm)
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
