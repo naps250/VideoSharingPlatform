@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using VideoSharingPlatform.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VideoSharingPlatform.FileStore;
+using VideoSharingPlatform.Data.MongoDb;
+using VideoSharingPlatform.Data;
 
 namespace VideoSharingPlatform
 {
@@ -30,14 +31,17 @@ namespace VideoSharingPlatform
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            var connectionString = Configuration.GetConnectionString("HighlightsConnString");
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(connectionString));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddScoped<IFileStore, Data.FileStore>();
-            services.AddScoped<ApplicationDbContext>();
+
+            //services.AddDbContext<ApplicationDbContext>();
+
+            services.Configure<MongoDbOptions>(Configuration);
             services.AddScoped<MongoDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

@@ -30,7 +30,7 @@ namespace VideoSharingPlatform.Models
             }
             set
             {
-                _tags = string.Join($"{DELIMITER}", value);
+                _tags = value != null ? string.Join($"{DELIMITER}", value) : null;
             }
         }
 

@@ -1,9 +1,8 @@
 ﻿using System.Diagnostics;
 using System.IO;
-using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using VideoSharingPlatform.Data;
+using Microsoft.Net.Http.Headers;
 using VideoSharingPlatform.FileStore;
 using VideoSharingPlatform.Models;
 using VideoSharingPlatform.Models.DTOs;
@@ -32,14 +31,14 @@ namespace VideoSharingPlatform.Controllers
             var fileData = new FileData()
             {
                 Author = User.Identity.Name,
-                Tags = fileDataDto.Tags.Split(',')
+                Tags = fileDataDto.Tags?.Split(',')
             };
 
             using (var reader = new StreamReader(file.OpenReadStream()))
             {
                 var fileContent = reader.ReadToEnd();
                 var parsedContentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
-                fileData.FileName = parsedContentDisposition.FileName.Trim('"');
+                fileData.FileName = parsedContentDisposition.FileName.ToString().Trim('"');
                 fileData.FileContents = fileContent;
             }
 
