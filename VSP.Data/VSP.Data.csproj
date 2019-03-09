@@ -20,10 +20,6 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.2.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
   </ItemGroup>
-  
-  <ItemGroup>
-	<DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\VSP.Data.Models\VSP.Data.Models.csproj" />

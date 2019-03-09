@@ -1,4 +1,7 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using VideoSharingPlatform.FileStore;
 
@@ -11,17 +14,19 @@ namespace VideoSharingPlatform.Models
         [BsonIgnore]
         public int Id { get; set; }
 
+        [Required]
         [BsonIgnore]
         public string FileName { get; set; }
 
+        [Required]
         [BsonIgnore]
         public string Author { get; set; }
 
         [BsonIgnore]
         private string _tags;
 
-        [BsonIgnore]
         [NotMapped]
+        [BsonIgnore]
         public string[] Tags
         {
             get
@@ -34,11 +39,15 @@ namespace VideoSharingPlatform.Models
             }
         }
 
-        [BsonId]
-        public long MongoId { get; set; }
+        [BsonRequired]
+        public string GridFsId { get; set; }
 
         [NotMapped]
-        [BsonElement("FileData")]
+        [BsonIgnore]
         public string FileContents { get; set; }
+
+        [Required]
+        [BsonIgnore]
+        public DateTime UploadDate { get; set; } = DateTime.Now;
     }
 }

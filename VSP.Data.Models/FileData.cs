@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System.ComponentModel.DataAnnotations.Schema;
 using VideoSharingPlatform.FileStore;
 
@@ -35,7 +36,7 @@ namespace VideoSharingPlatform.Models
         }
 
         [BsonId]
-        public long MongoId { get; set; }
+        public ObjectId MongoId { get; set; }
 
         [NotMapped]
         [BsonElement("FileData")]

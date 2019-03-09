@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using VideoSharingPlatform.Data.MongoDb;
 using VideoSharingPlatform.FileStore;
@@ -21,14 +22,12 @@ namespace VideoSharingPlatform.Data
         {
             var test = fileData as FileData;
 
-            var highlightFiles = _mongoDbContext.Database.GetCollection<FileData>("Highlights");
-
-            highlightFiles.InsertOneAsync(test);
+            test.GridFsId = _mongoDbContext.Bucket.UploadFromBytes(test.FileName, Encoding.ASCII.GetBytes(test.FileContents)).ToString();
 
             _dbContext.FileDatas.Add(test);
             _dbContext.SaveChanges();
 
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task<IFileData> GetAsync(string identifier)

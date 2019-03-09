@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 using System;
-using Microsoft.Extensions.Options;
 
 namespace VideoSharingPlatform.Data.MongoDb
 {
@@ -8,23 +8,29 @@ namespace VideoSharingPlatform.Data.MongoDb
     {
         public IMongoDatabase Database { get; set; }
 
-        public MongoDbContext(IOptionsMonitor<MongoDbOptions> optionsAccessor)
+        public GridFSBucket Bucket { get; set; }
+
+        public MongoDbContext(MongoDbOptions mongoDbOptions)
         {
-            var options = optionsAccessor.CurrentValue;
-            var dbName = options.MongoDatabaseName;
+            var dbName = mongoDbOptions.MongoDatabaseName;
             // Creating credentials
             var credential = MongoCredential.CreateCredential
                             (dbName,
-                             options.MongoUsername,
-                             options.MongoPassword);
+                             mongoDbOptions.MongoUsername,
+                             mongoDbOptions.MongoPassword);
 
             // Creating MongoClientSettings
             var settings = new MongoClientSettings
             {
-                Server = new MongoServerAddress(options.MongoHost, Convert.ToInt32(options.MongoPort))
+                Server = new MongoServerAddress(mongoDbOptions.MongoHost, Convert.ToInt32(mongoDbOptions.MongoPort))
             };
 
             Database = new MongoClient(settings).GetDatabase(dbName);
+
+            Bucket = new GridFSBucket(Database, new GridFSBucketOptions()
+            {
+                BucketName = "Highlights"
+            });
         }
     }
 }
