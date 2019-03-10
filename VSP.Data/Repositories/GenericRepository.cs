@@ -1,10 +1,9 @@
-﻿namespace Fapp.Data.Repositories
-{
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Linq;
-    using VideoSharingPlatform.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
+namespace VSP.Data.Repositories
+{
     public class GenericRepository<T> : IRepository<T> where T : class
     {
         public GenericRepository(ApplicationDbContext context)
@@ -99,6 +98,11 @@
         public void Dispose()
         {
             this.Context.Dispose();
+        }
+
+        public void Add(string name, byte[] data)
+        {
+            throw new NotImplementedException();
         }
     }
 }

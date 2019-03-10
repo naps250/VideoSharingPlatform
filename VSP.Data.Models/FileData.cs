@@ -1,28 +1,65 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using VideoSharingPlatform.FileStore;
+using System.Text;
+using VSP.Data.Models.Enums;
 
-namespace VideoSharingPlatform.Models
+namespace VSP.Data.Models
 {
     public sealed class FileData : IFileData
     {
         private static readonly char DELIMITER = '|';
 
+        private string _tags;
+        private string _url;
+        private HeroesEnum _hero;
+
         [BsonIgnore]
         public int Id { get; set; }
 
+        [Required]
+        [BsonIgnore]
+        public string Url
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_url))
+                {
+                    _url = CreateMD5Url($"{FileName}{Author}{Tags}{UploadDate}");
+                }
+                return _url;
+            }
+            set
+            {
+                _url = value;
+            }
+        }
+
+        [Required]
         [BsonIgnore]
         public string FileName { get; set; }
 
+        [Required]
         [BsonIgnore]
         public string Author { get; set; }
 
+        [Required]
         [BsonIgnore]
-        private string _tags;
+        public int Hero
+        {
+            get
+            {
+                return (int)_hero;
+            }
+            set
+            {
+                _hero = (HeroesEnum)value;
+            }
+        }
 
-        [BsonIgnore]
         [NotMapped]
+        [BsonIgnore]
         public string[] Tags
         {
             get
@@ -35,11 +72,33 @@ namespace VideoSharingPlatform.Models
             }
         }
 
-        [BsonId]
-        public ObjectId MongoId { get; set; }
+        [BsonRequired]
+        public string GridFsId { get; set; }
 
         [NotMapped]
-        [BsonElement("FileData")]
+        [BsonIgnore]
         public string FileContents { get; set; }
+
+        [Required]
+        [BsonIgnore]
+        public DateTime UploadDate { get; set; } = DateTime.Now;
+
+        private string CreateMD5Url(string input)
+        {
+            // Use input string to calculate MD5 hash
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] inputBytes = Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                // Convert the byte array to hexadecimal string
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
+            }
+        }
     }
 }

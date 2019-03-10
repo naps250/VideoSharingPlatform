@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using VideoSharingPlatform.Data;
+using VSP.Data;
 
-namespace VideoSharingPlatform.Data.Migrations
+namespace VSP.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20190309151600_RenamedMongoIdAddedUploadDate")]
@@ -186,7 +186,7 @@ namespace VideoSharingPlatform.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("VideoSharingPlatform.Models.FileData", b =>
+            modelBuilder.Entity("VSP.Models.FileData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

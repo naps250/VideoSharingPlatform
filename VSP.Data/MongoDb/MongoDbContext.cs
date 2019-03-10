@@ -2,7 +2,7 @@
 using MongoDB.Driver.GridFS;
 using System;
 
-namespace VideoSharingPlatform.Data.MongoDb
+namespace VSP.Data.MongoDb
 {
     public class MongoDbContext
     {

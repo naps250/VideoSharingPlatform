@@ -1,8 +1,8 @@
-﻿namespace Fapp.Data.Repositories
-{
-    using System;
-    using System.Linq;
+﻿using System;
+using System.Linq;
 
+namespace VSP.Data.Repositories
+{
     public interface IRepository<T> : IDisposable where T : class
     {
         IQueryable<T> All();

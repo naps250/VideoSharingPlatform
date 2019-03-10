@@ -6,31 +6,44 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
-using VideoSharingPlatform.FileStore;
-using VideoSharingPlatform.Models;
-using VideoSharingPlatform.Models.DTOs;
+using VSP.Data.Models;
+using VSP.Models;
+using VSP.Models.DTOs.Request;
+using VSP.Models.DTOs.Response;
+using VSP.Services.Contracts;
+using VSP.Data.Models.Enums;
+using System;
 
-namespace VideoSharingPlatform.Controllers
+namespace VSP.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
-        private IFileStore _fileStore;
+        private static readonly char DELIMITER = ',';
 
-        public HomeController(IFileStore fileStore)
+        private IVideoService _videoService;
+
+        public HomeController(IVideoService videoService)
         {
-            _fileStore = fileStore;
+            _videoService = videoService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var heroesEnumData = Enum.GetValues(typeof(HeroesEnum)).Cast<HeroesEnum>().Select(x => new HeroDataResponse()
+            {
+                 Id = (int)x,
+                 Name = x.ToString()
+             });
+
+            return View(heroesEnumData);
         }
 
         [HttpPost]
         public IActionResult UploadVideo(FileDataDto fileDataDto)
         {
             var file = Request.Form.Files["FileData"];
+            var url = string.Empty;
 
             string[] mimeTypes = new[] { "video/mp4", "video/webm" };
 
@@ -39,7 +52,7 @@ namespace VideoSharingPlatform.Controllers
                 var fileData = new FileData()
                 {
                     Author = User.FindFirst(ClaimTypes.NameIdentifier).Value,
-                    Tags = fileDataDto.Tags?.Split(',')
+                    Tags = fileDataDto.Tags?.Split(DELIMITER)
                 };
 
                 using (var reader = new StreamReader(file.OpenReadStream()))
@@ -50,16 +63,16 @@ namespace VideoSharingPlatform.Controllers
                     fileData.FileContents = fileContent;
                 }
 
-                _fileStore.AddAsync(fileData);
+                url = _videoService.AddAsync(fileData).Result;
             }
 
-            return NoContent();
+            return Json(url);
         } 
 
         [HttpGet]
         public IActionResult GetVideo(string id)
         {
-            _fileStore.GetAsync(id);
+            _videoService.GetAsync(id);
 
             return View();
         }

@@ -1,6 +1,6 @@
 using System;
 
-namespace VideoSharingPlatform.Models
+namespace VSP.Models
 {
     public class ErrorViewModel
     {

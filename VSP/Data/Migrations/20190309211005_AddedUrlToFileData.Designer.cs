@@ -10,8 +10,8 @@ using VSP.Data;
 namespace VSP.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190309142257_AddFileDatasRequiredAndMongoIdChange")]
-    partial class AddFileDatasRequiredAndMongoIdChange
+    [Migration("20190309211005_AddedUrlToFileData")]
+    partial class AddedUrlToFileData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -198,9 +198,12 @@ namespace VSP.Data.Migrations
                     b.Property<string>("FileName")
                         .IsRequired();
 
-                    b.Property<string>("MongoId");
+                    b.Property<string>("GridFsId");
 
                     b.Property<DateTime>("UploadDate");
+
+                    b.Property<string>("Url")
+                        .IsRequired();
 
                     b.HasKey("Id");
 

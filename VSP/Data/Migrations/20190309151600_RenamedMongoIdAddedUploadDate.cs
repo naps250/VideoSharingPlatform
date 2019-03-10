@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace VideoSharingPlatform.Data.Migrations
+namespace VSP.Data.Migrations
 {
     public partial class RenamedMongoIdAddedUploadDate : Migration
     {

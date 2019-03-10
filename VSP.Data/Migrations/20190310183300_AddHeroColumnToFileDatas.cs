@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VSP.Data.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class AddHeroColumnToFileDatas : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,6 +45,24 @@ namespace VSP.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FileDatas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Url = table.Column<string>(nullable: false),
+                    FileName = table.Column<string>(nullable: false),
+                    Author = table.Column<string>(nullable: false),
+                    Hero = table.Column<int>(nullable: false),
+                    GridFsId = table.Column<string>(nullable: true),
+                    UploadDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FileDatas", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -209,6 +227,9 @@ namespace VSP.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "FileDatas");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

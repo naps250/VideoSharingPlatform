@@ -1,6 +1,4 @@
-﻿using VideoSharingPlatform.Models;
-
-namespace VideoSharingPlatform.FileStore
+﻿namespace VSP.Data.Models
 {
     public interface IFileData
     {

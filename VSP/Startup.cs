@@ -6,11 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using VideoSharingPlatform.FileStore;
-using VideoSharingPlatform.Data.MongoDb;
-using VideoSharingPlatform.Data;
+using VSP.Data.MongoDb;
+using VSP.Data;
+using VSP.Services;
+using VSP.Services.Contracts;
+using VSP.Data.FileStore;
+using VSP.Data.Repositories;
+using VSP.Data.Models;
 
-namespace VideoSharingPlatform
+namespace VSP
 {
     public class Startup
     {
@@ -52,7 +56,10 @@ namespace VideoSharingPlatform
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddScoped<IFileStore, Data.FileStore>();
+            services.AddScoped<IVideoService, VideoService>();
+
+            services.AddTransient<IRepository<FileData>, GenericRepository<FileData>>();
+            services.AddTransient<IMongoRepository<FileData>, MongoDbRepository<FileData>>();
 
             services.AddMvc(options =>
                         options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))

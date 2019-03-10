@@ -1,4 +1,4 @@
-﻿namespace VideoSharingPlatform.Data.MongoDb
+﻿namespace VSP.Data.MongoDb
 {
     public class MongoDbOptions
     {

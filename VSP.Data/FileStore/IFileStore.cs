@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
+using VSP.Data.Models;
 
-namespace VideoSharingPlatform.FileStore
+namespace VSP.Data.FileStore
 {
     public interface IFileStore
     {
-        Task AddAsync(IFileData fileData, string subDir = null);
+        Task<string> AddAsync(IFileData fileData, string subDir = null);
 
         Task<IFileData> GetAsync(string identifier);
 

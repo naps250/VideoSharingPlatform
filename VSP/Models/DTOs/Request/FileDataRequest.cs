@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace VideoSharingPlatform.Models.DTOs
+namespace VSP.Models.DTOs.Request
 {
     public class FileDataDto
     {

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VSP.Data.Models", "VSP.Data
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VSP.Data", "VSP.Data\VSP.Data.csproj", "{18F9DCD7-4C3D-443A-9604-2815F21F8063}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VSP.Services.Data", "VSP.Services.Data\VSP.Services.Data.csproj", "{51D1DF8B-7675-49B5-8941-169953659951}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VSP.Services", "VSP.Services\VSP.Services.csproj", "{51D1DF8B-7675-49B5-8941-169953659951}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

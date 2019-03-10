@@ -10,8 +10,8 @@ using VSP.Data;
 namespace VSP.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190309142257_AddFileDatasRequiredAndMongoIdChange")]
-    partial class AddFileDatasRequiredAndMongoIdChange
+    [Migration("20190310183300_AddHeroColumnToFileDatas")]
+    partial class AddHeroColumnToFileDatas
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -186,7 +186,7 @@ namespace VSP.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("VSP.Models.FileData", b =>
+            modelBuilder.Entity("VSP.Data.Models.FileData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -198,9 +198,14 @@ namespace VSP.Data.Migrations
                     b.Property<string>("FileName")
                         .IsRequired();
 
-                    b.Property<string>("MongoId");
+                    b.Property<string>("GridFsId");
+
+                    b.Property<int>("Hero");
 
                     b.Property<DateTime>("UploadDate");
+
+                    b.Property<string>("Url")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
