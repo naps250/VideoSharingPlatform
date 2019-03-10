@@ -13,7 +13,6 @@ namespace VSP.Data.Models
 
         private string _tags;
         private string _url;
-        private HeroesEnum _hero;
 
         [BsonIgnore]
         public int Id { get; set; }
@@ -40,21 +39,24 @@ namespace VSP.Data.Models
         [BsonIgnore]
         public string FileName { get; set; }
 
-        [Required]
         [BsonIgnore]
         public string Author { get; set; }
 
+        [NotMapped]
+        [BsonIgnore]
+        public HeroesEnum Hero { get; set; }
+
         [Required]
         [BsonIgnore]
-        public int Hero
+        public int HeroId
         {
             get
             {
-                return (int)_hero;
+                return (int)Hero;
             }
             set
             {
-                _hero = (HeroesEnum)value;
+                Hero = (HeroesEnum)value;
             }
         }
 

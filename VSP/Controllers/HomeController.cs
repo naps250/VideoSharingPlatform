@@ -13,6 +13,7 @@ using VSP.Models.DTOs.Response;
 using VSP.Services.Contracts;
 using VSP.Data.Models.Enums;
 using System;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace VSP.Controllers
 {
@@ -30,13 +31,7 @@ namespace VSP.Controllers
 
         public IActionResult Index()
         {
-            var heroesEnumData = Enum.GetValues(typeof(HeroesEnum)).Cast<HeroesEnum>().Select(x => new HeroDataResponse()
-            {
-                 Id = (int)x,
-                 Name = x.ToString()
-             });
-
-            return View(heroesEnumData);
+            return View();
         }
 
         [HttpPost]
@@ -52,7 +47,8 @@ namespace VSP.Controllers
                 var fileData = new FileData()
                 {
                     Author = User.FindFirst(ClaimTypes.NameIdentifier).Value,
-                    Tags = fileDataDto.Tags?.Split(DELIMITER)
+                    Tags = fileDataDto.Tags?.Split(DELIMITER),
+                    Hero = fileDataDto.Hero
                 };
 
                 using (var reader = new StreamReader(file.OpenReadStream()))

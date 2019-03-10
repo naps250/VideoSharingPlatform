@@ -1,11 +1,14 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+
+@using VSP.Data.Models.Enums;
+
 <div>
     @using (Html.BeginForm("UploadVideo",
-               "Home",
-               FormMethod.Post,
-               new { enctype = "multipart/form-data" }))
+             "Home",
+             FormMethod.Post,
+             new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
 
@@ -13,10 +16,10 @@
         <label for='file'>File:</label>
         <input id='file' name='FileData' type='file' accept=".mp4,.webm" value='Choose file' />
         <br />
-        @*<text>Highlight hero</text>
-        <select asp-items="@((List<SelectListItem>)Model["heroesEnumData"])">
-          <option value="">Select hero</option>
-        </select>*@
+        <text>Highlight hero</text>
+        @Html.DropDownList("Hero",
+                     new SelectList(Enum.GetValues(typeof(HeroesEnum))).Skip(1),
+                     "Select hero")
         <br />
         <text>Tags (comma separated)</text>
         <input name="Tags" type='text' />
@@ -27,8 +30,8 @@
     <br />
     <br />
     @using (Html.BeginForm("Search",
-               "Home",
-               FormMethod.Get))
+             "Home",
+             FormMethod.Get))
     {
         @Html.AntiForgeryToken()
 
