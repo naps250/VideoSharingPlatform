@@ -2,36 +2,14 @@
     ViewData["Title"] = "Home Page";
 }
 
-@using VSP.Data.Models.Enums;
+@{await Html.RenderPartialAsync("UploadVideo");}
 
 <div>
-    @using (Html.BeginForm("UploadVideo",
-             "Home",
-             FormMethod.Post,
-             new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
-
-        <text><h1>PogU</h1></text>
-        <label for='file'>File:</label>
-        <input id='file' name='FileData' type='file' accept=".mp4,.webm" value='Choose file' />
-        <br />
-        <text>Highlight hero</text>
-        @Html.DropDownList("Hero",
-                     new SelectList(Enum.GetValues(typeof(HeroesEnum))).Skip(1),
-                     "Select hero")
-        <br />
-        <text>Tags (comma separated)</text>
-        <input name="Tags" type='text' />
-        <br />
-        <br />
-        <input type='submit' value='Upload' />
-    }
     <br />
     <br />
     @using (Html.BeginForm("Search",
-             "Home",
-             FormMethod.Get))
+            "Home",
+            FormMethod.Get))
     {
         @Html.AntiForgeryToken()
 

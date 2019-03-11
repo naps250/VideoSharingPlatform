@@ -9,11 +9,8 @@ using Microsoft.Net.Http.Headers;
 using VSP.Data.Models;
 using VSP.Models;
 using VSP.Models.DTOs.Request;
-using VSP.Models.DTOs.Response;
 using VSP.Services.Contracts;
-using VSP.Data.Models.Enums;
 using System;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace VSP.Controllers
 {
@@ -38,6 +35,7 @@ namespace VSP.Controllers
         public IActionResult UploadVideo(FileDataDto fileDataDto)
         {
             var file = Request.Form.Files["FileData"];
+
             var url = string.Empty;
 
             string[] mimeTypes = new[] { "video/mp4", "video/webm" };
@@ -63,7 +61,7 @@ namespace VSP.Controllers
             }
 
             return Json(url);
-        } 
+        }
 
         [HttpGet]
         public IActionResult GetVideo(string id)

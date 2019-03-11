@@ -83,7 +83,7 @@ namespace VSP.Data.Models
 
         [Required]
         [BsonIgnore]
-        public DateTime UploadDate { get; set; } = DateTime.Now;
+        public DateTime UploadDate { get; private set; } = DateTime.Now;
 
         private string CreateMD5Url(string input)
         {

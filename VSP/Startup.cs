@@ -13,6 +13,7 @@ using VSP.Services.Contracts;
 using VSP.Data.FileStore;
 using VSP.Data.Repositories;
 using VSP.Data.Models;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace VSP
 {
@@ -60,6 +61,13 @@ namespace VSP
 
             services.AddTransient<IRepository<FileData>, GenericRepository<FileData>>();
             services.AddTransient<IMongoRepository<FileData>, MongoDbRepository<FileData>>();
+
+            services.Configure<RazorViewEngineOptions>(o =>
+            {
+                // {2} is area, {1} is controller,{0} is the action    
+                o.ViewLocationFormats.Add("/Views/Partial/{0}" + RazorViewEngine.ViewExtension);
+
+            });
 
             services.AddMvc(options =>
                         options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))
