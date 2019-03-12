@@ -10,14 +10,15 @@ function uploadFiles(inputId) {
     var formData = new FormData();
     formData.append("Hero", $("#Hero").val());
     formData.append("Tags", $("#Tags").val());
+    formData.append("__RequestVerificationToken", $('[name="__RequestVerificationToken"]').val());
 
-    formData.append("files", data);
+    formData.append("FileData", data);
 
     $.ajax({
         url: "Home/UploadVideo",
         data: formData,
         processData: false,
-        contentType: "multipart/form-data",
+        contentType: false,
         type: "POST",
         xhr: function () {
             var xhr = new window.XMLHttpRequest();
