@@ -26,9 +26,9 @@ namespace VSP.Data.Repositories
             return this.DbSet.AsQueryable();
         }
 
-        public virtual T GetById(object id)
+        public virtual T GetById(string id)
         {
-            return this.DbSet.Find(id);
+            return this.DbSet.Find(int.Parse(id));
         }
 
         public virtual void Add(T entity)
@@ -69,7 +69,7 @@ namespace VSP.Data.Repositories
             }
         }
 
-        public virtual void Delete(object id)
+        public virtual void Delete(string id)
         {
             var entity = this.GetById(id);
 

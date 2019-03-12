@@ -5,6 +5,7 @@ using System.Linq;
 using VSP.Data.Models;
 using System.Threading.Tasks;
 using System.Text;
+using MongoDB.Bson;
 
 namespace VSP.Services
 {
@@ -21,27 +22,35 @@ namespace VSP.Services
 
         public Task<string> AddAsync(IFileData fileData, string subDir = null)
         {
-            var test = fileData as FileData;
+            var newFile = fileData as FileData;
 
             var uploadVideoTask = new Task<string>(() =>
             {
-                test.GridFsId = _fileDataMongoRepo.UploadBytes(test.FileName, Encoding.ASCII.GetBytes(test.FileContents)).ToString();
+                newFile.GridFsId = _fileDataMongoRepo.UploadBytes(newFile.FileName, newFile.FileContents).ToString();
 
-                _fileDataGenericRepo.Add(test);
+                _fileDataGenericRepo.Add(newFile);
                 _fileDataGenericRepo.SaveChanges();
 
-                return test.Url;
+                return newFile.Id.ToString();
             });
             uploadVideoTask.Start();
 
             return uploadVideoTask;
         }
 
-        public Task<IFileData> GetAsync(string url)
+        public Task<IFileData> GetAsync(string id)
         {
-            _fileDataGenericRepo.GetById(url);
+            var downloadVideoTask = new Task<IFileData>(() =>
+            {
+                FileData video;
+                video = _fileDataGenericRepo.GetById(id);
+                video.FileContents = _fileDataMongoRepo.DownloadBytes(new ObjectId(video.GridFsId));
 
-            throw new NotImplementedException();
+                return video;
+            });
+            downloadVideoTask.Start();
+
+            return downloadVideoTask;
         }
 
         public IQueryable<FileData> Search(string searchTerm)

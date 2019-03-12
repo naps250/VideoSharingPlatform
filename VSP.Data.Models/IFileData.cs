@@ -5,5 +5,11 @@
         string Author { get; set; }
 
         string[] Tags { get; set; }
+
+        string ContentType { get; set; }
+
+        byte[] FileContents { get; set; }
+
+        string Url { get; set; }
     }
 }

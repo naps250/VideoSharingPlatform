@@ -11,6 +11,7 @@ using VSP.Models;
 using VSP.Models.DTOs.Request;
 using VSP.Services.Contracts;
 using System;
+using System.Text;
 
 namespace VSP.Controllers
 {
@@ -36,7 +37,7 @@ namespace VSP.Controllers
         {
             var file = Request.Form.Files["FileData"];
 
-            var url = string.Empty;
+            var id = string.Empty;
 
             string[] mimeTypes = new[] { "video/mp4", "video/webm" };
 
@@ -44,31 +45,33 @@ namespace VSP.Controllers
             {
                 var fileData = new FileData()
                 {
+                    ContentType = file.ContentType,
                     Author = User.FindFirst(ClaimTypes.NameIdentifier).Value,
                     Tags = fileDataDto.Tags?.Split(DELIMITER),
                     Hero = fileDataDto.Hero
                 };
 
-                using (var reader = new StreamReader(file.OpenReadStream()))
+                using (var ms = new MemoryStream())
                 {
-                    var fileContent = reader.ReadToEnd();
+                    file.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
                     var parsedContentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
                     fileData.FileName = parsedContentDisposition.FileName.ToString().Trim('"');
-                    fileData.FileContents = fileContent;
+                    fileData.FileContents = fileBytes;
                 }
 
-                url = _videoService.AddAsync(fileData).Result;
+                //using (var reader = new StreamReader(file.OpenReadStream()))
+                //{
+                //    var fileContent = reader.ReadToEnd();
+                //    var parsedContentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
+                //    fileData.FileName = parsedContentDisposition.FileName.ToString().Trim('"');
+                //    fileData.FileContentsString = fileContent;
+                //}
+
+                id = _videoService.AddAsync(fileData).Result;
             }
 
-            return Json(url);
-        }
-
-        [HttpGet]
-        public IActionResult GetVideo(string id)
-        {
-            _videoService.GetAsync(id);
-
-            return View();
+            return Ok(id);
         }
 
         [HttpGet]

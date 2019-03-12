@@ -39,6 +39,10 @@ namespace VSP.Data.Models
         [BsonIgnore]
         public string FileName { get; set; }
 
+        [Required]
+        [BsonIgnore]
+        public string ContentType { get; set; }
+
         [BsonIgnore]
         public string Author { get; set; }
 
@@ -79,7 +83,20 @@ namespace VSP.Data.Models
 
         [NotMapped]
         [BsonIgnore]
-        public string FileContents { get; set; }
+        public string FileContentsString
+        {
+            private get
+            {
+                return Encoding.ASCII.GetString(FileContents);
+            }
+            set
+            {
+                FileContents = Encoding.ASCII.GetBytes(value);
+            }
+        }
+
+        [NotMapped]
+        public byte[] FileContents { get; set; }
 
         [Required]
         [BsonIgnore]

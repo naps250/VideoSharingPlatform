@@ -19,19 +19,25 @@ namespace VSP.Data.Repositories
 
         protected MongoDbContext Context { get; set; }
 
+        public virtual ObjectId UploadBytes(string name, byte[] data)
+        {
+            return Context.Bucket.UploadFromBytes(name, data);
+        }
+
+        public virtual byte[] DownloadBytes(ObjectId id)
+        {
+            return Context.Bucket.DownloadAsBytes(new ObjectId(id.ToString()));
+        }
+
+
         public virtual IQueryable<T> All()
         {
             throw new NotImplementedException();
         }
 
-        public virtual T GetById(object id)
+        public virtual T GetById(string id)
         {
             throw new NotImplementedException();
-        }
-
-        public virtual ObjectId UploadBytes(string name, byte[] data)
-        {
-            return Context.Bucket.UploadFromBytes(name, data);
         }
 
         public virtual void Update(T entity)
@@ -44,7 +50,7 @@ namespace VSP.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public virtual void Delete(object id)
+        public virtual void Delete(string id)
         {
             var entity = this.GetById(id);
 

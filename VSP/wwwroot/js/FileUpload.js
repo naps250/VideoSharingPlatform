@@ -30,9 +30,13 @@ function uploadFiles(inputId) {
             }, false);
             return xhr;
         },
-        success: function (data) {
-            if (data.state == 0) {
+        success: function (data, xhr) {
+            if (xhr == "success" && data != undefined) {
                 progressEle.css("background", "green");
+                var $videoLink = $('#videoLinkId');
+                $videoLink[0].href += "Video/Watch/" + data;
+                $videoLink.html($videoLink[0].href);
+                $videoLink.parent().css("display", "");
             }
         },
         error: function (data) {

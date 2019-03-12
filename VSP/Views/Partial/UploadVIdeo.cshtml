@@ -4,11 +4,6 @@
 @using VSP.Data.Models.Enums;
 
 <div>
-    @*@using (Html.BeginForm("UploadVideo",
-             "Home",
-             FormMethod.Post,
-             new { enctype = "multipart/form-data" }))
-        {*@
     <form id="uploadVideoFormId" name="form" onsubmit="return uploadFiles('file');" method="post">
         @Html.AntiForgeryToken()
 
@@ -30,5 +25,7 @@
     <div style="position:relative;width:296px;background:#f0f0f0">
         <div id="progress" style="background: blue; height: 20px;width:0"></div>
     </div>
-    @*}*@
+    <div style="display:none">
+        <a id="videoLinkId"></a>
+    </div>
 </div>

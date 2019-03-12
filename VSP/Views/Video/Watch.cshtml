@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewData["Title"] = "Video";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Video</h2>
+
+<video controls="" autoplay="" name="media">
+    <source src="../GetVideo/@(ViewContext.RouteData.Values["id"])">
+</video>
+

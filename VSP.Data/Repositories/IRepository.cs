@@ -7,7 +7,7 @@ namespace VSP.Data.Repositories
     {
         IQueryable<T> All();
 
-        T GetById(object id);
+        T GetById(string id);
 
         void Add(T entity);
 
@@ -15,7 +15,7 @@ namespace VSP.Data.Repositories
 
         void Delete(T entity);
 
-        void Delete(object id);
+        void Delete(string id);
 
         T Attach(T entity);
 

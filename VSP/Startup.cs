@@ -10,7 +10,6 @@ using VSP.Data.MongoDb;
 using VSP.Data;
 using VSP.Services;
 using VSP.Services.Contracts;
-using VSP.Data.FileStore;
 using VSP.Data.Repositories;
 using VSP.Data.Models;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -66,6 +65,7 @@ namespace VSP
             {
                 // {2} is area, {1} is controller,{0} is the action    
                 o.ViewLocationFormats.Add("/Views/Partial/{0}" + RazorViewEngine.ViewExtension);
+                o.ViewLocationFormats.Add("/Views/Video/{0}" + RazorViewEngine.ViewExtension);
 
             });
 
