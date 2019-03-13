@@ -4,8 +4,8 @@ using System;
 using System.Linq;
 using VSP.Data.Models;
 using System.Threading.Tasks;
-using System.Text;
 using MongoDB.Bson;
+using System.Collections.Generic;
 
 namespace VSP.Services
 {
@@ -42,8 +42,7 @@ namespace VSP.Services
         {
             var downloadVideoTask = new Task<IFileData>(() =>
             {
-                FileData video;
-                video = _fileDataGenericRepo.GetById(id);
+                FileData video = _fileDataGenericRepo.GetById(id);
                 video.FileContents = _fileDataMongoRepo.DownloadBytes(new ObjectId(video.GridFsId));
 
                 return video;
@@ -53,14 +52,34 @@ namespace VSP.Services
             return downloadVideoTask;
         }
 
-        public IQueryable<FileData> Search(string searchTerm)
+        public List<FileData> Search(string searchTerm)
         {
-            throw new NotImplementedException();
+            searchTerm = searchTerm.ToLower();
+
+            var tags = _fileDataGenericRepo.All()
+                .Where(x => x.FileName.ToLower().Contains(searchTerm)
+                    || x.Tags.Contains(searchTerm, StringComparer.OrdinalIgnoreCase)
+                    || x.Hero.ToString().ToLower().Contains(searchTerm)
+                    || x.Author.ToLower().Contains(searchTerm))
+                .ToList();
+
+            return tags;
         }
 
         public void Delete(string identifier)
         {
             throw new NotImplementedException();
+        }
+
+        public List<string> GetTagsList()
+        {
+            var tags = _fileDataGenericRepo.All()
+                .Select(x => x.Tags)
+                .SelectMany(y => y)
+                .Distinct()
+                .ToList();
+
+            return tags;
         }
     }
 }

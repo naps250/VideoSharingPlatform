@@ -1,0 +1,28 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model VSP.ViewModels.HomeViewModel;
+
+<div style="display:inline-block; width:300px;margin-top:25px;">
+    @foreach (var item in Model.Tags)
+    {
+        <a href="">@Html.DisplayFor(modelItem => item)</a>
+        <br />
+    }
+</div>
+
+<div style="display:inline-block">
+    @using (Html.BeginForm("Search",
+           "Home",
+           FormMethod.Get))
+    {
+        @Html.AntiForgeryToken()
+
+        <text>Search</text>
+        <input name="searchTerm" type='text' />
+        <br />
+        <br />
+        <input type='submit' value='Search' />
+    }
+</div>

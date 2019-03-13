@@ -11,7 +11,7 @@ using VSP.Models;
 using VSP.Models.DTOs.Request;
 using VSP.Services.Contracts;
 using System;
-using System.Text;
+using VSP.ViewModels;
 
 namespace VSP.Controllers
 {
@@ -29,7 +29,15 @@ namespace VSP.Controllers
 
         public IActionResult Index()
         {
-            return View();
+
+            var tags = _videoService.GetTagsList();
+
+            var viewModel = new HomeViewModel()
+            {
+                Tags = tags
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -60,14 +68,6 @@ namespace VSP.Controllers
                     fileData.FileContents = fileBytes;
                 }
 
-                //using (var reader = new StreamReader(file.OpenReadStream()))
-                //{
-                //    var fileContent = reader.ReadToEnd();
-                //    var parsedContentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
-                //    fileData.FileName = parsedContentDisposition.FileName.ToString().Trim('"');
-                //    fileData.FileContentsString = fileContent;
-                //}
-
                 id = _videoService.AddAsync(fileData).Result;
             }
 
@@ -77,6 +77,7 @@ namespace VSP.Controllers
         [HttpGet]
         public IActionResult Search(string searchTerm)
         {
+            var results = _videoService.Search(searchTerm);
             return View();
         }
 

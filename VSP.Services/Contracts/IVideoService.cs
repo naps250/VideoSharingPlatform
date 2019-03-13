@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using VSP.Data.Models;
 
@@ -10,7 +11,9 @@ namespace VSP.Services.Contracts
 
         Task<IFileData> GetAsync(string identifier);
 
-        IQueryable<FileData> Search(string searchTerm);
+        List<string> GetTagsList();
+
+        List<FileData> Search(string searchTerm);
 
         void Delete(string identifier);
     }
