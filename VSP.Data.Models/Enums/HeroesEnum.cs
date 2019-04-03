@@ -32,6 +32,6 @@
         Winston,
         WreckingBall,
         Zarya,
-        Zen
+        Zenyatta
     }
 }

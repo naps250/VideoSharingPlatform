@@ -198,9 +198,14 @@ namespace VSP.Data.Migrations
                     b.Property<string>("FileName")
                         .IsRequired();
 
-                    b.Property<string>("GridFsId");
+                    b.Property<string>("GridFsId")
+                        .IsRequired();
 
                     b.Property<int>("HeroId");
+
+                    b.Property<string>("TagsString")
+                        .IsRequired()
+                        .HasColumnName("Tags");
 
                     b.Property<DateTime>("UploadDate");
 

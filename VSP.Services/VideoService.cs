@@ -58,7 +58,7 @@ namespace VSP.Services
 
             var tags = _fileDataGenericRepo.All()
                 .Where(x => x.FileName.ToLower().Contains(searchTerm)
-                    || x.Tags.Contains(searchTerm, StringComparer.OrdinalIgnoreCase)
+                    || x.TagsArray.Contains(searchTerm, StringComparer.OrdinalIgnoreCase)
                     || x.Hero.ToString().ToLower().Contains(searchTerm)
                     || x.Author.ToLower().Contains(searchTerm))
                 .ToList();
@@ -74,12 +74,12 @@ namespace VSP.Services
         public List<string> GetTagsList()
         {
             var tags = _fileDataGenericRepo.All()
-                .Select(x => x.Tags)
+                .Select(x => x.TagsArray)
                 .SelectMany(y => y)
-                .Distinct()
-                .ToList();
+                .Distinct();
+            var tags2 = tags?.ToList();
 
-            return tags;
+            return tags2;
         }
     }
 }

@@ -29,13 +29,9 @@ namespace VSP.Controllers
 
         public IActionResult Index()
         {
-
             var tags = _videoService.GetTagsList();
 
-            var viewModel = new HomeViewModel()
-            {
-                Tags = tags
-            };
+            var viewModel = new HomeViewModel(tags);
 
             return View(viewModel);
         }
@@ -54,8 +50,8 @@ namespace VSP.Controllers
                 var fileData = new FileData()
                 {
                     ContentType = file.ContentType,
-                    Author = User.FindFirst(ClaimTypes.NameIdentifier).Value,
-                    Tags = fileDataDto.Tags?.Split(DELIMITER),
+                    Author = User.Identities.First().Name,
+                    TagsArray = fileDataDto.Tags?.Split(DELIMITER),
                     Hero = fileDataDto.Hero
                 };
 

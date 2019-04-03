@@ -11,7 +11,6 @@ namespace VSP.Data.Models
     {
         private static readonly char DELIMITER = '|';
 
-        private string _tags;
         private string _url;
 
         [BsonIgnore]
@@ -25,7 +24,7 @@ namespace VSP.Data.Models
             {
                 if (string.IsNullOrWhiteSpace(_url))
                 {
-                    _url = CreateMD5Url($"{FileName}{Author}{Tags}{UploadDate}");
+                    _url = CreateMD5Url($"{FileName}{Author}{TagsArray}{UploadDate}");
                 }
                 return _url;
             }
@@ -66,36 +65,29 @@ namespace VSP.Data.Models
 
         [NotMapped]
         [BsonIgnore]
-        public string[] Tags
+        public string[] TagsArray
         {
             get
             {
-                return _tags.Split(DELIMITER);
+                return TagsString?.Split(DELIMITER);
             }
             set
             {
-                _tags = value != null ? string.Join($"{DELIMITER}", value) : null;
+                TagsString = value != null ? string.Join($"{DELIMITER}", value) : null;
             }
         }
 
+        [Required]
+        [Column("Tags")]
+        [BsonIgnore]
+        public string TagsString { get; set; }
+
+        [Required]
         [BsonRequired]
         public string GridFsId { get; set; }
 
         [NotMapped]
-        [BsonIgnore]
-        public string FileContentsString
-        {
-            private get
-            {
-                return Encoding.ASCII.GetString(FileContents);
-            }
-            set
-            {
-                FileContents = Encoding.ASCII.GetBytes(value);
-            }
-        }
-
-        [NotMapped]
+        [BsonRequired]
         public byte[] FileContents { get; set; }
 
         [Required]

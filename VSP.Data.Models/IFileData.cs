@@ -4,7 +4,7 @@
     {
         string Author { get; set; }
 
-        string[] Tags { get; set; }
+        string[] TagsArray { get; set; }
 
         string ContentType { get; set; }
 

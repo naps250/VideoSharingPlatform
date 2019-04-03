@@ -10,8 +10,8 @@ using VSP.Data;
 namespace VSP.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190310183300_AddHeroColumnToFileDatas")]
-    partial class AddHeroColumnToFileDatas
+    [Migration("20190330205932_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -192,15 +192,22 @@ namespace VSP.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Author")
+                    b.Property<string>("Author");
+
+                    b.Property<string>("ContentType")
                         .IsRequired();
 
                     b.Property<string>("FileName")
                         .IsRequired();
 
-                    b.Property<string>("GridFsId");
+                    b.Property<string>("GridFsId")
+                        .IsRequired();
 
-                    b.Property<int>("Hero");
+                    b.Property<int>("HeroId");
+
+                    b.Property<string>("TagsString")
+                        .IsRequired()
+                        .HasColumnName("Tags");
 
                     b.Property<DateTime>("UploadDate");
 

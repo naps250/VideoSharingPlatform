@@ -23,7 +23,7 @@ namespace VSP.Data.Repositories
 
         public virtual IQueryable<T> All()
         {
-            return this.DbSet.AsQueryable();
+            return this.DbSet;
         }
 
         public virtual T GetById(string id)

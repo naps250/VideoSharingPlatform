@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VSP.Data.Migrations
 {
-    public partial class AddHeroColumnToFileDatas : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -55,9 +55,11 @@ namespace VSP.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Url = table.Column<string>(nullable: false),
                     FileName = table.Column<string>(nullable: false),
-                    Author = table.Column<string>(nullable: false),
-                    Hero = table.Column<int>(nullable: false),
-                    GridFsId = table.Column<string>(nullable: true),
+                    ContentType = table.Column<string>(nullable: false),
+                    Author = table.Column<string>(nullable: true),
+                    HeroId = table.Column<int>(nullable: false),
+                    Tags = table.Column<string>(nullable: false),
+                    GridFsId = table.Column<string>(nullable: false),
                     UploadDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>

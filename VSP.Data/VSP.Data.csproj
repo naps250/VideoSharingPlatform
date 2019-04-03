@@ -41,6 +41,7 @@
 
   <ItemGroup>
     <Folder Include="DbInitializer\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>
