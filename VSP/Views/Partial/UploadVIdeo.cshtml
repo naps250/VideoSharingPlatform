@@ -4,7 +4,7 @@
 @using VSP.Data.Models.Enums;
 
 <div>
-    <form id="uploadVideoFormId" name="form" onsubmit="return uploadFiles('file');" method="post">
+    <form id="uploadVideoFormId" name="form" onsubmit="return uploadFiles('file');" method="post" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
 
         <text><h1>PogU</h1></text>
@@ -20,7 +20,7 @@
         <input id="Tags" name="Tags" type='text' />
         <br />
         <br />
-        <input type='submit' value='Upload' />
+        <input id="uploadSubmitButton" type='submit' value='Upload' />
     </form>
     <div style="position:relative;width:296px;background:#f0f0f0">
         <div id="progress" style="background: blue; height: 20px;width:0"></div>

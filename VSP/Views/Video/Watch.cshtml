@@ -6,7 +6,7 @@
 
 <h2>Video</h2>
 
-<video controls="" autoplay="" name="media">
-    <source src="../GetVideo/@(ViewContext.RouteData.Values["id"])">
+<video controls="" autoplay playsinline preload="auto">
+    <source src="../GetVideo/@(ViewContext.RouteData.Values["id"])" type="audio/mp4">
 </video>
 

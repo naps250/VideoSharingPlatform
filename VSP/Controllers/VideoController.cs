@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using System.Net.Http.Headers;
+using System.Net.Mime;
 using VSP.Services.Contracts;
 
 namespace VSP.Controllers
@@ -19,13 +22,26 @@ namespace VSP.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(Duration = 946707779, Location = ResponseCacheLocation.Any)]
         public IActionResult GetVideo(string id)
         {
             var video = _videoService.GetAsync(id).Result;
 
-            var file = File(video.FileContents, video.ContentType, video.Url);
+            if(video == null)
+            {
+                return NotFound();
+            }
 
-            return file;
+            var stream = new MemoryStream(video.FileContents);
+
+            var fileStreamResult = new FileStreamResult(stream, new MediaTypeHeaderValue(video.ContentType).MediaType)
+            {
+                EnableRangeProcessing = true,
+                FileDownloadName = video.FileName
+            };
+
+            return fileStreamResult;
+
         }
     }
 }

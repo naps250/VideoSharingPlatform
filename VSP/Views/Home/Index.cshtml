@@ -2,6 +2,62 @@
     ViewData["Title"] = "Home Page";
 }
 
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#uploadSubmitButton').click(function (event) {
+                event.preventDefault()
+
+                uploadFiles();
+            });
+        });
+
+        function uploadFiles() {
+            var progressEle = $("#progress");
+            progressEle.css("background", "blue");
+
+            var data = document.getElementById('file').files[0];
+
+            var formData = new FormData();
+            formData.append("Hero", $("#Hero").val());
+            formData.append("Tags", $("#Tags").val());
+            formData.append("__RequestVerificationToken", $('[name="__RequestVerificationToken"]').val());
+
+            formData.append("FileData", data);
+
+            $.ajax({
+                url: "Home/UploadVideo",
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                xhr: function () {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener("progress", function (evt) {
+                        if (evt.lengthComputable) {
+                            var progress = Math.round((evt.loaded / evt.total) * 100);
+                            progressEle.width(progress + "%");
+                        }
+                    }, false);
+                    return xhr;
+                },
+                success: function (data, xhr) {
+                    if (xhr == "success" && data != undefined) {
+                        progressEle.css("background", "green");
+                        var $videoLink = $('#videoLinkId');
+                        $videoLink[0].href += "Video/Watch/" + data;
+                        $videoLink.html($videoLink[0].href);
+                        $videoLink.parent().css("display", "");
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("some error");
+                }
+            });
+        }
+    </script>
+}
+
 @{await Html.RenderPartialAsync("UploadVideo");}
 
 @{await Html.RenderPartialAsync("SearchVideo");}
